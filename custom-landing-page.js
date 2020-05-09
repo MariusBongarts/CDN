@@ -1136,6 +1136,120 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "35d6":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, "default", function() { return /* binding */ addStylesToShadowDOM; });
+
+// CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/listToStyles.js
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/addStylesShadow.js
+
+
+function addStylesToShadowDOM (parentId, list, shadowRoot) {
+  var styles = listToStyles(parentId, list)
+  addStyles(styles, shadowRoot)
+}
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+function addStyles (styles /* Array<StyleObject> */, shadowRoot) {
+  const injectedStyles =
+    shadowRoot._injectedStyles ||
+    (shadowRoot._injectedStyles = {})
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var style = injectedStyles[item.id]
+    if (!style) {
+      for (var j = 0; j < item.parts.length; j++) {
+        addStyle(item.parts[j], shadowRoot)
+      }
+      injectedStyles[item.id] = true
+    }
+  }
+}
+
+function createStyleElement (shadowRoot) {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  shadowRoot.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */, shadowRoot) {
+  var styleElement = createStyleElement(shadowRoot)
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+
 /***/ "37e8":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2057,106 +2171,8 @@ function wrap (Vue, Component) {
 // EXTERNAL MODULE: ./node_modules/css-loader/dist/runtime/api.js
 var api = __webpack_require__("24fb");
 
-// CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/listToStyles.js
-/**
- * Translates the list format produced by css-loader into something
- * easier to manipulate.
- */
-function listToStyles (parentId, list) {
-  var styles = []
-  var newStyles = {}
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i]
-    var id = item[0]
-    var css = item[1]
-    var media = item[2]
-    var sourceMap = item[3]
-    var part = {
-      id: parentId + ':' + i,
-      css: css,
-      media: media,
-      sourceMap: sourceMap
-    }
-    if (!newStyles[id]) {
-      styles.push(newStyles[id] = { id: id, parts: [part] })
-    } else {
-      newStyles[id].parts.push(part)
-    }
-  }
-  return styles
-}
-
-// CONCATENATED MODULE: ./node_modules/vue-style-loader/lib/addStylesShadow.js
-
-
-function addStylesToShadowDOM (parentId, list, shadowRoot) {
-  var styles = listToStyles(parentId, list)
-  addStyles(styles, shadowRoot)
-}
-
-/*
-type StyleObject = {
-  id: number;
-  parts: Array<StyleObjectPart>
-}
-
-type StyleObjectPart = {
-  css: string;
-  media: string;
-  sourceMap: ?string
-}
-*/
-
-function addStyles (styles /* Array<StyleObject> */, shadowRoot) {
-  const injectedStyles =
-    shadowRoot._injectedStyles ||
-    (shadowRoot._injectedStyles = {})
-  for (var i = 0; i < styles.length; i++) {
-    var item = styles[i]
-    var style = injectedStyles[item.id]
-    if (!style) {
-      for (var j = 0; j < item.parts.length; j++) {
-        addStyle(item.parts[j], shadowRoot)
-      }
-      injectedStyles[item.id] = true
-    }
-  }
-}
-
-function createStyleElement (shadowRoot) {
-  var styleElement = document.createElement('style')
-  styleElement.type = 'text/css'
-  shadowRoot.appendChild(styleElement)
-  return styleElement
-}
-
-function addStyle (obj /* StyleObjectPart */, shadowRoot) {
-  var styleElement = createStyleElement(shadowRoot)
-  var css = obj.css
-  var media = obj.media
-  var sourceMap = obj.sourceMap
-
-  if (media) {
-    styleElement.setAttribute('media', media)
-  }
-
-  if (sourceMap) {
-    // https://developer.chrome.com/devtools/docs/javascript-debugging
-    // this makes source maps inside style tags work properly in Chrome
-    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
-    // http://stackoverflow.com/a/26603875
-    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
-  }
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild)
-    }
-    styleElement.appendChild(document.createTextNode(css))
-  }
-}
+// EXTERNAL MODULE: ./node_modules/vue-style-loader/lib/addStylesShadow.js + 1 modules
+var addStylesShadow = __webpack_require__("35d6");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -2258,12 +2274,12 @@ function normalizeComponent (
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"b700679a-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/pages/CompanyLandingPage/components/Homepage.vue?vue&type=template&id=36bca3b6&scoped=true&shadow
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.loaded)?_c('div',{staticClass:"company-container"},[(_vm.company)?_c('div',[_c('h1',[_vm._v(_vm._s(_vm.company.companyName))])]):_vm._e(),(!_vm.company)?_c('div',[_c('h1',[_vm._v("Unternehmen konnte nicht gefunden werden!")])]):_vm._e()]):_vm._e()}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"b700679a-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/pages/CompanyLandingPage/components/Homepage.vue?vue&type=template&id=a3b6378e&scoped=true&shadow
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.loaded)?_c('div',{staticClass:"company-container"},[(_vm.company)?_c('div',[_c('HomePageContainer',{attrs:{"company":_vm.company}})],1):_vm._e(),(!_vm.company)?_c('div',[_c('h1',[_vm._v("Unternehmen konnte nicht gefunden werden!")])]):_vm._e()]):_vm._e()}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/pages/CompanyLandingPage/components/Homepage.vue?vue&type=template&id=36bca3b6&scoped=true&shadow
+// CONCATENATED MODULE: ./src/pages/CompanyLandingPage/components/Homepage.vue?vue&type=template&id=a3b6378e&scoped=true&shadow
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.iterator.js
 var es_array_iterator = __webpack_require__("e260");
@@ -4315,7 +4331,56 @@ class CompanyService_CompanyService {
   }
 
 }
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"b700679a-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/pages/CompanyLandingPage/components/HomePageContainer.vue?vue&type=template&id=ad1c317a&scoped=true&
+var HomePageContainervue_type_template_id_ad1c317a_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"home-page-container container-fluid"},[_c('div',{staticClass:"header row"},[_c('div',{staticClass:"company-headline ml-lg-5"},[_c('span',{staticClass:"md-headline"},[_vm._v(_vm._s(_vm.company.companyName))])])]),_c('div',{staticClass:"header-toolbar row p-3"},[_c('div',{staticClass:"company-headline ml-lg-5"},[_c('md-icon',[_vm._v("map")]),_c('span',{staticClass:"md-caption ml-2"},[_vm._v(_vm._s(_vm.company.street)+", "+_vm._s(_vm.company.plz)+" "+_vm._s(_vm.company.city))])],1)]),_c('div',{staticClass:"main-section row p-5"},[_vm._v(" Some content ")]),_c('div',{staticClass:"footer-section row p-5"},[_vm._v(" Some footer ")])])}
+var HomePageContainervue_type_template_id_ad1c317a_scoped_true_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/pages/CompanyLandingPage/components/HomePageContainer.vue?vue&type=template&id=ad1c317a&scoped=true&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--14-3!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/pages/CompanyLandingPage/components/HomePageContainer.vue?vue&type=script&lang=ts&
+
+
+
+var HomePageContainervue_type_script_lang_ts_HomePage = class HomePage extends external_Vue_default.a {};
+
+__decorate([Prop()], HomePageContainervue_type_script_lang_ts_HomePage.prototype, "company", void 0);
+
+HomePageContainervue_type_script_lang_ts_HomePage = __decorate([vue_class_component_esm({
+  components: {
+    HomePageContainer: HomePageContainer
+  }
+})], HomePageContainervue_type_script_lang_ts_HomePage);
+/* harmony default export */ var HomePageContainervue_type_script_lang_ts_ = (HomePageContainervue_type_script_lang_ts_HomePage);
+// CONCATENATED MODULE: ./src/pages/CompanyLandingPage/components/HomePageContainer.vue?vue&type=script&lang=ts&
+ /* harmony default export */ var components_HomePageContainervue_type_script_lang_ts_ = (HomePageContainervue_type_script_lang_ts_); 
+// CONCATENATED MODULE: ./src/pages/CompanyLandingPage/components/HomePageContainer.vue
+
+
+
+function injectStyles (context) {
+  
+  var style0 = __webpack_require__("f448")
+if (style0.__inject__) style0.__inject__(context)
+
+}
+
+/* normalize component */
+
+var component = normalizeComponent(
+  components_HomePageContainervue_type_script_lang_ts_,
+  HomePageContainervue_type_template_id_ad1c317a_scoped_true_render,
+  HomePageContainervue_type_template_id_ad1c317a_scoped_true_staticRenderFns,
+  false,
+  injectStyles,
+  "ad1c317a",
+  null
+  ,true
+)
+
+/* harmony default export */ var HomePageContainer = (component.exports);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--14-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/ts-loader??ref--14-3!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/pages/CompanyLandingPage/components/Homepage.vue?vue&type=script&lang=ts&shadow
+
 
 
 
@@ -4359,7 +4424,9 @@ var Homepagevue_type_script_lang_ts_shadow_HomePage = class HomePage extends ext
 __decorate([Prop()], Homepagevue_type_script_lang_ts_shadow_HomePage.prototype, "companyDomain", void 0);
 
 Homepagevue_type_script_lang_ts_shadow_HomePage = __decorate([vue_class_component_esm({
-  components: {}
+  components: {
+    HomePageContainer: HomePageContainer
+  }
 })], Homepagevue_type_script_lang_ts_shadow_HomePage);
 /* harmony default export */ var Homepagevue_type_script_lang_ts_shadow = (Homepagevue_type_script_lang_ts_shadow_HomePage);
 // CONCATENATED MODULE: ./src/pages/CompanyLandingPage/components/Homepage.vue?vue&type=script&lang=ts&shadow
@@ -4368,25 +4435,25 @@ Homepagevue_type_script_lang_ts_shadow_HomePage = __decorate([vue_class_componen
 
 
 
-function injectStyles (context) {
+function Homepageshadow_injectStyles (context) {
   
   
 }
 
 /* normalize component */
 
-var component = normalizeComponent(
+var Homepageshadow_component = normalizeComponent(
   components_Homepagevue_type_script_lang_ts_shadow,
   render,
   staticRenderFns,
   false,
-  injectStyles,
-  "36bca3b6",
+  Homepageshadow_injectStyles,
+  "a3b6378e",
   null
   ,true
 )
 
-/* harmony default export */ var Homepageshadow = (component.exports);
+/* harmony default export */ var Homepageshadow = (Homepageshadow_component.exports);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-wc.js
 
 
@@ -6903,6 +6970,23 @@ module.exports = function (object, names) {
 
 /***/ }),
 
+/***/ "cae2":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("d427");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add CSS to Shadow Root
+var add = __webpack_require__("35d6").default
+module.exports.__inject__ = function (shadowRoot) {
+  add("0cd9aa1a", content, shadowRoot)
+};
+
+/***/ }),
+
 /***/ "cc12":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7121,6 +7205,20 @@ var toString = __webpack_require__("b041");
 if (!TO_STRING_TAG_SUPPORT) {
   redefine(Object.prototype, 'toString', toString, { unsafe: true });
 }
+
+
+/***/ }),
+
+/***/ "d427":
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("24fb");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+// Module
+exports.push([module.i, ".md-error[data-v-ad1c317a]{color:#ff1744}.header[data-v-ad1c317a]{height:180px;background:-webkit-gradient(linear,left top,right top,from(#72bcf8),color-stop(50%,#42a5f5),to(#128ef2));background:linear-gradient(90deg,#72bcf8,#42a5f5 50%,#128ef2)}.header .company-headline[data-v-ad1c317a]{margin-top:auto;margin-bottom:30px;padding:10px;color:#fff;background:rgba(39,39,39,.329)}.header-toolbar[data-v-ad1c317a]{border-bottom:1px solid #f1f1f1;display:-webkit-box;display:-ms-flexbox;display:flex;background:#fff;font-size:14px}.main-section[data-v-ad1c317a]{background:#f6f6f6;height:200px}.footer-section[data-v-ad1c317a]{background:#ececec}", ""]);
+// Exports
+module.exports = exports;
 
 
 /***/ }),
@@ -8147,6 +8245,18 @@ module.exports.f = function (C) {
   return new PromiseCapability(C);
 };
 
+
+/***/ }),
+
+/***/ "f448":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_HomePageContainer_vue_vue_type_style_index_0_id_ad1c317a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("cae2");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_HomePageContainer_vue_vue_type_style_index_0_id_ad1c317a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_HomePageContainer_vue_vue_type_style_index_0_id_ad1c317a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_HomePageContainer_vue_vue_type_style_index_0_id_ad1c317a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_HomePageContainer_vue_vue_type_style_index_0_id_ad1c317a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_vue_style_loader_index_js_ref_8_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_HomePageContainer_vue_vue_type_style_index_0_id_ad1c317a_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
