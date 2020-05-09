@@ -1768,7 +1768,7 @@ __webpack_require__.r(__webpack_exports__);
 // This file is imported into lib/wc client bundles.
 
 if (typeof window !== 'undefined') {
-  if (Object({"NODE_ENV":"production","VUE_APP_ADMIN_PASSWORD":"password","VUE_APP_ADMIN_USER":"admin@termino.de","VUE_APP_BACKEND_URL":"http://89.107.56.229/server","VUE_APP_I18N_FALLBACK_LOCALE":"en","VUE_APP_I18N_LOCALE":"en","VUE_APP_MODE":"dev","VUE_APP_PRODUCTION":"true","BASE_URL":"/"}).NEED_CURRENTSCRIPT_POLYFILL) {
+  if (Object({"VUE_APP_I18N_LOCALE":"en","VUE_APP_I18N_FALLBACK_LOCALE":"en","VUE_APP_PRODUCTION":"true","VUE_APP_MODE":"dev","VUE_APP_BACKEND_URL":"http://89.107.56.229/server","VUE_APP_ADMIN_USER":"admin@termino.de","VUE_APP_ADMIN_PASSWORD":"password","NODE_ENV":"production","BASE_URL":"/"}).NEED_CURRENTSCRIPT_POLYFILL) {
     __webpack_require__("f6fd")
   }
 
@@ -2258,7 +2258,7 @@ function normalizeComponent (
   }
 }
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5f3b8399-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/pages/CompanyLandingPage/components/Homepage.vue?vue&type=template&id=36bca3b6&scoped=true&shadow
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"b700679a-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/pages/CompanyLandingPage/components/Homepage.vue?vue&type=template&id=36bca3b6&scoped=true&shadow
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return (_vm.loaded)?_c('div',{staticClass:"company-container"},[(_vm.company)?_c('div',[_c('h1',[_vm._v(_vm._s(_vm.company.companyName))])]):_vm._e(),(!_vm.company)?_c('div',[_c('h1',[_vm._v("Unternehmen konnte nicht gefunden werden!")])]):_vm._e()]):_vm._e()}
 var staticRenderFns = []
 
