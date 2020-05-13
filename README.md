@@ -1,6 +1,14 @@
 # CDN
 Host javascript custom elements
 
-# Implement custom-elements in your html by adding a script tag for each component:
+# Example
 
-<script src="https://cdn.jsdelivr.net/gh/MariusBongarts/CDN/${component-file}"></script>
+```
+<script>
+  window.terminoOptions = {
+    companyDomain: "mustermann",
+    element: "custom-landing-page", // custom-landing-page or company-widget
+  }
+</script>
+<script defer src="https://cdn.jsdelivr.net/gh/MariusBongarts/CDN/termino.js"></script>
+```
