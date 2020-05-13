@@ -2,41 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <title>Termino</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
-    <link rel="stylesheet" href="https://unpkg.com/vue-material@1.0.0-beta-12/dist/vue-material.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/vue-material@1.0.0-beta-12/dist/theme/default.css">
-    <style>
-      body {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-      }
-    </style>
   </head>
   <body>
-    <noscript>
-      <strong
-        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
-        properly without JavaScript enabled. Please enable it to
-        continue.</strong
-      >
-    </noscript>
-    <custom-landing-page company-domain="mustermann"></custom-landing-page>
-    <!-- built files will be auto injected -->
   </body>
-  <title><%= htmlWebpackPlugin.options.title %></title>
-  <script defer src="https://unpkg.com/vue"></script>
-  <script defer src="https://unpkg.com/vue-material@1.0.0-beta-12/dist/vue-material.min.js"></script>
-  <!-- <script defer src="./custom-landing-page.js"></script> -->
-  <script defer src="https://cdn.jsdelivr.net/gh/MariusBongarts/CDN/custom-landing-page.js"></script>
+  <script>
+    window.terminoOptions = {
+      companyDomain: "mustermann",
+      element: "custom-landing-page", // custom-landing-page
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/gh/MariusBongarts/CDN/termino.js"></script>
 </html>
-
