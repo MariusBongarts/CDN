@@ -10,5 +10,5 @@ Host javascript custom elements
     element: "custom-landing-page", // custom-landing-page or company-widget
   }
 </script>
-<script defer src="https://cdn.jsdelivr.net/gh/MariusBongarts/CDN/termino.js"></script>
+<script defer src="https://cdn.jsdelivr.net/gh/MariusBongarts/CDN@latest/termino.js"></script>
 ```
